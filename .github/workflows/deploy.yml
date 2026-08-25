@@ -29,6 +29,8 @@ jobs:
           extensions: mbstring, pdo_mysql
       - name: Install PHP dependencies
         run: composer install --no-interaction --prefer-dist
+      - name: Generate application key
+        run: php artisan key:generate
       - name: Run tests
         run: php artisan test --parallel
 
