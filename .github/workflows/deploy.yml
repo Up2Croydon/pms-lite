@@ -52,7 +52,7 @@ jobs:
           DB_DATABASE: memory
           SESSION_DRIVER: array
           CACHE_DRIVER: array
-        run: php artisan test --parallel --env=testing
+        run: php artisan test --env=testing
 
   build-and-deploy:
     needs: test
