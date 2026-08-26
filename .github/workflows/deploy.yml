@@ -39,9 +39,8 @@ jobs:
       - name: Build frontend
         run: npm run build
 
-      # - name: Prepare environment
-      #   run: |
-      #     cp .env.example .env
+      - name: Prepare environment
+        run: cp .env.example .env
 
       #     echo "APP_ENV=testing" >> .env
       #     echo "DB_CONNECTION=sqlite" >> .env
