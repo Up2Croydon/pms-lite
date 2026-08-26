@@ -42,17 +42,19 @@ jobs:
           echo "QUEUE_CONNECTION=sync" >> .env
       - name: Generate application key
         run: php artisan key:generate
-      - name: Run database migrations
-        run: php artisan migrate:fresh --env=testing --force
-      - name: Disable maintenance mode
-        run: php artisan up
+      # - name: Run database migrations
+      #   run: php artisan migrate:fresh --env=testing --force
+      # - name: Disable maintenance mode
+      #   run: php artisan up
       - name: Run tests
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ":memory:"
           SESSION_DRIVER: array
           CACHE_DRIVER: array
-        run: php artisan test --env=testing
+        run: |
+          php artisan migrate:fresh --env=testing --force
+          php artisan test --env=testing
 
   build-and-deploy:
     needs: test
