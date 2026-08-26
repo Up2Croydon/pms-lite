@@ -33,6 +33,13 @@ jobs:
         run: |
           cp .env.example .env 2>/dev/null || touch .env
           echo "APP_KEY=" >> .env
+          echo "APP_ENV=production" >> .env
+          echo "DB_CONNECTION=sqlite" >> .env
+          echo "DB_DATABASE=:memory:" >> .env
+          echo "SESSION_DRIVER=array" >> .env
+          echo "CACHE_DRIVER=array" >> .env
+          echo "MAIL_MAILER=array" >> .env
+          echo "QUEUE_CONNECTION=sync" >> .env
       - name: Generate application key
         run: php artisan key:generate
       - name: Disable maintenance mode
