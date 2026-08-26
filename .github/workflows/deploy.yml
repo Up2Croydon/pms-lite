@@ -49,7 +49,7 @@ jobs:
       - name: Run tests
         env:
           DB_CONNECTION: sqlite
-          DB_DATABASE: memory
+          DB_DATABASE: :memory:
           SESSION_DRIVER: array
           CACHE_DRIVER: array
         run: php artisan test --env=testing
