@@ -5,7 +5,7 @@ FROM composer:latest AS composer
 
 WORKDIR /app
 
-COPY composer.json composer.lock ./
+COPY . .
 
 RUN composer install \
     --no-interaction \
