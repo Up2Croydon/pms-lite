@@ -1,21 +1,39 @@
 # ==============================
-# Stage 1: Build frontend assets
+# Stage 1: PHP dependencies
+# ==============================
+FROM composer:latest AS composer
+
+WORKDIR /app
+
+COPY composer.json composer.lock ./
+
+RUN composer install \
+    --no-interaction \
+    --prefer-dist \
+    --optimize-autoloader \
+    --no-dev
+
+
+# ==============================
+# Stage 2: Frontend build
 # ==============================
 FROM node:22-alpine AS frontend
 
 WORKDIR /app
 
 COPY package*.json ./
-
 RUN npm ci
 
 COPY . .
+
+# 把 Composer dependencies 放进来
+COPY --from=composer /app/vendor ./vendor
 
 RUN npm run build
 
 
 # ==============================
-# Stage 2: Production PHP image
+# Stage 3: Production
 # ==============================
 FROM php:8.5-fpm
 
@@ -41,12 +59,8 @@ WORKDIR /var/www/html
 
 COPY . .
 
-RUN composer install \
-    --no-interaction \
-    --optimize-autoloader \
-    --no-dev
+COPY --from=composer /app/vendor ./vendor
 
-# 从 frontend stage 复制 Vite build 结果
 COPY --from=frontend /app/public/build ./public/build
 
 RUN chown -R www-data:www-data /var/www/html \
