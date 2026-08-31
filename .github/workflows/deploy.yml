@@ -90,8 +90,13 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /home/ubuntu/pms-lite
+            export IMAGE_TAG=${{ github.sha }}
             docker-compose down
             docker-compose pull
             docker-compose up -d
             sleep 5
+
+            docker ps
+            docker inspect pms-lite --format '{{.Config.Image}}'
+
             docker exec pms-lite php artisan migrate --force
