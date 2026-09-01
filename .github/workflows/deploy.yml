@@ -89,6 +89,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            set -e
             cd /home/ubuntu/pms-lite
             export IMAGE_TAG=${{ github.sha }}
             docker-compose pull
