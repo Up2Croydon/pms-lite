@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  app:
+    image: 720992112291.dkr.ecr.ap-southeast-2.amazonaws.com/pms-lite:${IMAGE_TAG}
+    container_name: pms-lite
+    ports:
+      - "80:9000"
+    volumes:
+      - ./storage:/var/www/html/storage
+      - ./env:/var/www/html/.env
+    restart: unless-stopped
