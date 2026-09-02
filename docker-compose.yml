@@ -7,5 +7,5 @@ services:
       - "80:9000"
     volumes:
       - ./storage:/var/www/html/storage
-      - ./env:/var/www/html/.env
+      - ./.env:/var/www/html/.env
     restart: unless-stopped
