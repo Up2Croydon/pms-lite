@@ -39,15 +39,14 @@ jobs:
       - name: Build frontend
         run: npm run build
 
-      - name: Prepare environment
-        run: cp .env.example .env
-
-      #     echo "APP_ENV=testing" >> .env
-      #     echo "DB_CONNECTION=sqlite" >> .env
-      #     echo "DB_DATABASE=:memory:" >> .env
-      #     echo "SESSION_DRIVER=array" >> .env
-      #     echo "MAIL_MAILER=array" >> .env
-      #     echo "QUEUE_CONNECTION=sync" >> .env
+      - name: Prepare test environment
+        run: |
+          cp .env.example .env
+          echo "APP_ENV=testing" >> .env
+          echo "DB_CONNECTION=sqlite" >> .env
+          echo "DB_DATABASE=:memory:" >> .env
+          echo "SESSION_DRIVER=array" >> .env
+          echo "QUEUE_CONNECTION=sync" >> .env
 
       - name: Generate application key
         run: php artisan key:generate
@@ -108,7 +107,7 @@ jobs:
               720992112291.dkr.ecr.ap-southeast-2.amazonaws.com
 
             export IMAGE_TAG=${{ github.sha }}
-            
+
             docker-compose pull
             docker-compose down
             docker-compose up -d
